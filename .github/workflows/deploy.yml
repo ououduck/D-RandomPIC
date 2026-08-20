@@ -17,10 +17,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: "3.12"
 
@@ -29,14 +29,11 @@ jobs:
       - name: Generate random image files
         run: python gen_pic.py
 
-      # 将 dist/ 文件夹部署到 Cloudflare Pages
+      # 将 dist/ 文件夹部署到 Cloudflare Pages（使用 wrangler CLI）
+      # 若你的 Pages 项目名不是 d-randompic，请在仓库 Variables 中
+      # 配置 CLOUDFLARE_PROJECT_NAME，或直接修改下方默认值
       - name: Deploy to Cloudflare Pages
-        uses: cloudflare/pages-action@v1
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          # 若你的 Pages 项目名不是 d-randompic，请在仓库 Variables 中
-          # 配置 CLOUDFLARE_PROJECT_NAME，或直接修改下方默认值
-          projectName: ${{ vars.CLOUDFLARE_PROJECT_NAME || 'd-randompic' }}
-          directory: dist
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+        run: npx --yes wrangler pages deploy dist --project-name="${{ vars.CLOUDFLARE_PROJECT_NAME || 'd-randompic' }}" --branch=main
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
