@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>D-RandomPIC - 随机图 API</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 48px 20px;
+      color: #222;
+      font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    h1 { margin: 0; font-size: 28px; }
+    p { color: #666; }
+    ul { padding: 0; list-style: none; }
+    li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid #eee;
+    }
+    a { color: #1677ff; word-break: break-all; }
+    button {
+      flex: none;
+      padding: 5px 10px;
+      color: #fff;
+      background: #1677ff;
+      border: 0;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    #preview {
+      display: none;
+      width: 100%;
+      max-height: 70vh;
+      margin-top: 20px;
+      object-fit: contain;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <h1>D-RandomPIC</h1>
+  <p>一个简单的随机图 API 服务，点击“测试”即可获取一张图片。</p>
+
+  <ul>
+    <li>
+      <span>随机二次元图（手机）</span>
+      <a href="https://randompic.pldduck.com/ecy-v" target="_blank" rel="noopener">https://randompic.pldduck.com/ecy-v</a>
+      <button type="button" data-api="https://randompic.pldduck.com/ecy-v">测试</button>
+    </li>
+    <li>
+      <span>随机二次元图（电脑）</span>
+      <a href="https://randompic.pldduck.com/ecy-h" target="_blank" rel="noopener">https://randompic.pldduck.com/ecy-h</a>
+      <button type="button" data-api="https://randompic.pldduck.com/ecy-h">测试</button>
+    </li>
+    <li>
+      <span>随机白丝图</span>
+      <a href="https://randompic.pldduck.com/bs" target="_blank" rel="noopener">https://randompic.pldduck.com/bs</a>
+      <button type="button" data-api="https://randompic.pldduck.com/bs">测试</button>
+    </li>
+    <li>
+      <span>随机黑丝图</span>
+      <a href="https://randompic.pldduck.com/hs" target="_blank" rel="noopener">https://randompic.pldduck.com/hs</a>
+      <button type="button" data-api="https://randompic.pldduck.com/hs">测试</button>
+    </li>
+  </ul>
+
+  <img id="preview" alt="随机图片预览">
+
+  <script>
+    const preview = document.querySelector('#preview');
+
+    document.querySelectorAll('[data-api]').forEach((button) => {
+      button.addEventListener('click', () => {
+        preview.src = `${button.dataset.api}?t=${Date.now()}`;
+        preview.style.display = 'block';
+      });
+    });
+  </script>
+</body>
+</html>
